@@ -1,0 +1,142 @@
+* {
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+
+body {
+	background-color: #F3F3F3;;
+}
+
+header {
+	background-color: #FFFFFF;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 80px;
+	padding: 20px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+}
+
+header img {
+	height: 100%;
+}
+
+header button {	
+	border: none;
+	background-color: inherit;
+}
+
+header button ion-icon {
+	font-size: 42px;
+}
+
+footer {
+	background-color: #FFFFFF;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 80px;
+	padding: 20px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+}
+
+footer input {
+	font-style: italic;
+	border: none;
+}
+
+footer button {	
+	border: none;
+	background-color: inherit;
+} 
+
+footer button ion-icon {
+	font-size: 26px;
+}
+
+.chat-container {
+	margin: 80px 0;
+}
+
+.message {
+	background-color: inherit;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 10px 5px;
+	margin: 2px 0;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+}
+
+.notification.message {
+	background-color: #DCDCDC;
+}
+
+.private.message {
+	background-color: #FFDEDE;
+}
+
+.message .time {
+	color: #AAAAAA;
+	margin-right: 5px;
+}
+
+.message .user-name {
+	font-weight: bold;
+}
+
+.hidden {
+	display: none;
+}
+
+menu {	
+	background: rgba(0, 0, 0, 0.6);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	z-index: 1;
+	height: 100vh;
+	display: flex;
+	justify-content: flex-end;
+	/* transition animation */
+}
+
+.menu-content {	
+	background-color: #FFFFFF;
+	width: 259px;
+}
+
+.menu-content h1 {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	text-align: center;
+	margin: 30px 45px;
+}
+
+.menu-content .option ion-icon{
+	font-size: 23px;
+	margin: 10px;
+}
+
+.menu-content .option {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	margin: 5px 0;
+	height: 36px;
+	display: flex;
+	align-items: center;
+}
+
+.menu-background {
+	width: calc(100vw - 259px);
+}

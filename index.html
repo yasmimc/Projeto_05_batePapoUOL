@@ -1,18 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<link rel="icon" type="image/png" href="https://www.google.com/s2/u/0/favicons?domain=uol.com.br">
+
 	<!-- FONT IMPORT -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,300&display=swap"
+		rel="stylesheet">
 
 	<!-- CSS IMPORT -->
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/style.css">
 	<title>Bate Papo Uol</title>
 </head>
+
 <body>
+	<header>
+		<img src="assets/logo.jpg" alt="logo">
+		<button onclick="showMenu();">
+			<ion-icon name="people"></ion-icon>
+		</button>
+	</header>
+
+	<!-- CHAT MENU  -->
+	<menu class="hidden">
+		<div class= "menu-background" onclick="hideMenu(this);"></div>
+		<div class="menu-content">
+			<div class="contacts">
+				<h1>Escolha um contato para enviar mensagem:</h1>
+				<div class="option">
+					<ion-icon name="people"></ion-icon>
+					Todos
+				</div>
+				<div class="option">
+					<ion-icon name="person-circle"></ion-icon>
+					João
+				</div>
+				<div class="option">
+					<ion-icon name="person-circle"></ion-icon>
+					Maria
+				</div>
+			</div>
+			<div class="visibility">
+				<h1>Escolha a visibilidade:</h1>
+				<div class="option">
+					<ion-icon name="lock-open"></ion-icon>
+					Público
+				</div>
+				<div class="option">
+					<ion-icon name="lock-closed"></ion-icon>
+					Reservadamente
+				</div>
+			</div>
+		</div>
+	</menu>
+
+
+	<!-- CHAT CONTAINER  -->
+	<div class="chat-container">
+		<div class="notification message">
+			<div class="time">
+				(09:21:45)
+			</div>
+			<div class="from-to">
+				<span class="user-name">João </span>
+			</div>
+			<div class="text">
+				entra na sala...
+			</div>
+		</div>
+
+		<div class="message">
+			<div class="time">
+				(09:22:28)
+			</div>
+			<div class="from-to">
+				<span class="user-name">João </span> para <span class="user-name">Todos</span>:
+			</div>
+			<div class="text">
+				Bom dia
+			</div>
+		</div>
+
+		<div class="message">
+			<div class="time">
+				(09:22:38)
+			</div>
+			<div class="from-to">
+				<span class="user-name">Maria</span> para <span class="user-name">João</span>:
+			</div>
+			<div class="text">
+				<p>Oi João :)</p>
+			</div>
+		</div>
+
+		<div class="private message">
+			<div class="time">
+				(09:22:48)
+			</div>
+			<div class="from-to">
+				<p><span class="user-name">João</span>reservadamente para <span class="user-name">Maria</span>:</p>
+			</div>
+			<div class="text">
+				Oi gatinha quer tc?
+			</div>
+		</div>
+
+		<div class="notification message">
+			<div class="time">
+				(09:22:58)
+			</div>
+			<div class="from-to">
+				<p><span class="user-name">Maria </span></p>
+			</div>
+			<div class="text">
+				<p>sai da sala...</p>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<input type="text" placeholder="Escreva aqui...">
+		<button>
+			<ion-icon name="paper-plane-outline"></ion-icon>
+		</button>
+	</footer>
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script src="scripts/scripts.js"></script>
 </body>
+
 </html>
