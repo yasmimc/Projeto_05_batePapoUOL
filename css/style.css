@@ -64,9 +64,10 @@ footer button ion-icon {
 
 .chat-container {
 	margin: 80px 0;
+	overflow-y: scroll;
 }
 
-.message {
+.message, .status, .private_message {
 	background-color: inherit;
 	display: flex;
 	flex-wrap: wrap;
@@ -76,11 +77,11 @@ footer button ion-icon {
 	font-size: 14px;
 }
 
-.notification.message {
+.status {
 	background-color: #DCDCDC;
 }
 
-.private.message {
+.private_message {
 	background-color: #FFDEDE;
 }
 
@@ -89,7 +90,7 @@ footer button ion-icon {
 	margin-right: 5px;
 }
 
-.message .user-name {
+.user-name {
 	font-weight: bold;
 }
 
