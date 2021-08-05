@@ -1,12 +1,15 @@
 function init(){
-	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
+	let promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
 	console.log(promise)
 	promise.then(loadMessages);
+
+	setTimeout(init, 3000);
 }
 
 function loadMessages(resp){
 	const chat = document.querySelector(".chat-container");
 
+	chat.innerHTML = "";
 	for (let i = 0; i < resp.data.length; i++) {
 		
 		chat.innerHTML += 
@@ -22,12 +25,6 @@ function loadMessages(resp){
 			</div>
 		</div>`;
 	}
-
-
-	
-	console.log(resp.data)
-	console.log(chat.innerHTML)
-
 }
 
 init();
