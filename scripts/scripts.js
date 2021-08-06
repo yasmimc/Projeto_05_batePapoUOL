@@ -1,11 +1,16 @@
-function init(){
-	let promise = getPromise();
-	promise.then(loadMessages);
+init();
 
-	setTimeout(init, 3000);
+function init(){
+	
+	getDataFromServer();
+	const name = getUserName();	
 }
 
-
+function getDataFromServer(){
+	let promise = getPromise();
+	promise.then(loadMessages);
+	setTimeout(getDataFromServer, 3000);
+}
 
 function getPromise(){
 	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
@@ -37,8 +42,10 @@ function loadMessages(resp){
 	lastMsg.scrollIntoView();
 }
 
-init();
-
+function getUserName() {
+	const name = prompt("Qual o seu nome?");
+	return name;
+}
 
 function showMenu(){
 	const menu = document.querySelector("menu");
@@ -48,3 +55,4 @@ function showMenu(){
 function hideMenu(menuBg){
 	menuBg.parentNode.classList.add("hidden");
 }
+
