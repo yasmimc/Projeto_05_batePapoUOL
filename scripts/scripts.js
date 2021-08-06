@@ -1,9 +1,14 @@
 function init(){
-	let promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
-	console.log(promise)
+	let promise = getPromise();
 	promise.then(loadMessages);
 
 	setTimeout(init, 3000);
+}
+
+function getPromise(){
+	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
+	console.log(promise);
+	return promise;
 }
 
 function loadMessages(resp){
