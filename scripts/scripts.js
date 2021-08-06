@@ -5,6 +5,8 @@ function init(){
 	setTimeout(init, 3000);
 }
 
+
+
 function getPromise(){
 	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
 	console.log(promise);
@@ -30,6 +32,9 @@ function loadMessages(resp){
 			</div>
 		</div>`;
 	}
+
+	const lastMsg = chat.lastChild;
+	lastMsg.scrollIntoView();
 }
 
 init();
