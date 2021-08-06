@@ -53,12 +53,17 @@ function setUserName(name){
 	
 	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants", name);
 
-	promise.then(ifSucess);
+	promise.then(ifSucess(name));
 	promise.catch(identifyError);	
 }
 
-function ifSucess() {
-	getParticipants();
+function ifSucess(username) {
+	setInterval(keepConected, 5000, username);
+}
+
+function keepConected(username){
+	console.log("estou online")
+	axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status", username);
 }
 
 function nameInUse(){
