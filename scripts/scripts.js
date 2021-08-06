@@ -3,18 +3,18 @@ init();
 function init(){
 	
 	getDataFromServer();
-	const name = getUserName();	
+	const name = askName();
+	setUserName(name);
 }
 
 function getDataFromServer(){
-	let promise = getPromise();
+	let promise = getMsgs();
 	promise.then(loadMessages);
 	setTimeout(getDataFromServer, 3000);
 }
 
-function getPromise(){
+function getMsgs(){
 	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
-	console.log(promise);
 	return promise;
 }
 
@@ -42,9 +42,44 @@ function loadMessages(resp){
 	lastMsg.scrollIntoView();
 }
 
-function getUserName() {
-	const name = prompt("Qual o seu nome?");
+function askName(){
+	let name = {
+		name: prompt("Qual o seu nome?")
+	}
 	return name;
+}
+
+function setUserName(name){	
+	
+	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants", name);
+
+	promise.then(ifSucess);
+	promise.catch(identifyError);	
+}
+
+function ifSucess() {
+	getParticipants();
+}
+
+function nameInUse(){
+	let name = {
+		name: prompt("Este nome já está em uso. Digite outro, por favor.")
+	}
+	return name;
+}
+
+function identifyError(error){
+	const errorStatusCode = error.response.status;
+	if(errorStatusCode === 400) {
+		const newName = nameInUse();
+		setUserName(newName);
+	}
+}
+
+function getParticipants(){
+	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants");
+	console.log(promise);
+	return promise;
 }
 
 function showMenu(){
