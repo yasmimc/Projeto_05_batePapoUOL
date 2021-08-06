@@ -43,10 +43,15 @@ function loadMessages(resp){
 }
 
 function askName(){
-	let name = {
+	let user = {
 		name: prompt("Qual o seu nome?")
 	}
-	return name;
+	console.log(user.name)
+	if(!user.name){
+		console.log("ops")
+		askName();
+	}
+	return user;
 }
 
 function setUserName(name){	
@@ -63,14 +68,19 @@ function ifSucess(username) {
 
 function keepConected(username){
 	console.log("estou online")
-	axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status", username);
+	const keepConexion = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status", username);
+
 }
 
 function nameInUse(){
-	let name = {
+	let user = {
 		name: prompt("Este nome já está em uso. Digite outro, por favor.")
 	}
-	return name;
+	if(!user.name){
+		console.log("ops")
+		askName();
+	}
+	return user;
 }
 
 function identifyError(error){
