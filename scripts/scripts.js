@@ -46,7 +46,6 @@ function askName(){
 	let user = {
 		name: prompt("Qual o seu nome?")
 	}
-	console.log(user.name)
 	if(!user.name){
 		console.log("ops")
 		askName();
@@ -63,6 +62,7 @@ function setUserName(name){
 }
 
 function ifSucess(username) {
+	localStorage.setItem("username", username.name);
 	setInterval(keepConected, 5000, username);
 }
 
@@ -77,7 +77,6 @@ function nameInUse(){
 		name: prompt("Este nome já está em uso. Digite outro, por favor.")
 	}
 	if(!user.name){
-		console.log("ops")
 		askName();
 	}
 	return user;
