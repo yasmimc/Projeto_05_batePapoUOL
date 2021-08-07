@@ -173,8 +173,38 @@ function getParticipants(){
 	return promise;
 }
 
+function insertParticipants(resp){
+	const participantsList = resp.data;
+	const participants = document.querySelector(".participants");	
+
+	participants.innerHTML = 
+	`<h1>Escolha um contato para enviar mensagem:</h1>
+	<div class="option">
+		<ion-icon name="people"></ion-icon>
+		Todos
+	</div>`;
+
+	for (let i = 0; i < participantsList.length; i++) {
+		let isNotTodos = participantsList[i].name !== "Todos";
+
+		if(isNotTodos){
+			participants.innerHTML += 
+			`<div class="option">
+				<ion-icon name="person-circle"></ion-icon>
+				${participantsList[i].name}
+			</div>`
+		}		
+	}
+}
+
 function showMenu(){
 	const menu = document.querySelector("menu");
+	
+	
+	const promise = getParticipants();
+	promise.then(insertParticipants);
+
+	
 	menu.classList.remove("hidden");
 }
 
