@@ -114,11 +114,17 @@ function sendMsg(){
 	console.log(msg);
 
 	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages", msg);
+	promise.then(updateChat);
 	promise.catch(sendMsgError);
 }
 
-function sendMsgError(error){
-	console.log(error.response)
+function updateChat(){
+	const promise = getMsgs();
+	promise.then(loadMessages);
+}
+
+function sendMsgError(){
+	window.location.reload();
 }
 
 function showMenu(){
