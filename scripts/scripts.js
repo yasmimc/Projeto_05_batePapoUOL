@@ -15,6 +15,7 @@ function getDataFromServer(){
 
 function getMsgs(){
 	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
+	console.log(promise)
 	return promise;
 }
 
@@ -34,7 +35,7 @@ function loadMessages(resp){
 				<span class="user-name">${msgs[i].from}</span> para <span class="user-name">${msgs[i].to}</span>:
 			</div>
 			<div class="text">
-				${msgs[0].text}
+				${msgs[i].text}
 			</div>
 		</div>`;
 	}
