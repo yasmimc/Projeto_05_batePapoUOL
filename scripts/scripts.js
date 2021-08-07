@@ -20,20 +20,21 @@ function getMsgs(){
 
 function loadMessages(resp){
 	const chat = document.querySelector(".chat-container");
+	const msgs = resp.data;
 
 	chat.innerHTML = "";
-	for (let i = 0; i < resp.data.length; i++) {
+	for (let i = 0; i < msgs.length; i++) {
 		
 		chat.innerHTML += 
-		`<div class="${resp.data[i].type}">
+		`<div class="${msgs[i].type}">
 			<div class="time">
-				(${resp.data[i].time})
+				(${msgs[i].time})
 			</div>
 			<div class="from-to">
-				<span class="user-name">${resp.data[i].from}</span> para <span class="user-name">${resp.data[i].to}</span>:
+				<span class="user-name">${msgs[i].from}</span> para <span class="user-name">${msgs[i].to}</span>:
 			</div>
 			<div class="text">
-				${resp.data[0].text}
+				${msgs[0].text}
 			</div>
 		</div>`;
 	}
@@ -94,6 +95,29 @@ function getParticipants(){
 	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants");
 	console.log(promise);
 	return promise;
+}
+
+function sendMsg(){
+	let input =  document.querySelector("input");
+	let msgText = input.value;
+	input.value = null;
+
+	const msg =
+	{
+		from: localStorage.getItem("username"),
+		to: "Todos",
+		text: msgText,
+		type: "message" 
+	}
+
+	console.log(msg);
+
+	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages", msg);
+	promise.catch(sendMsgError);
+}
+
+function sendMsgError(error){
+	console.log(error.response)
 }
 
 function showMenu(){
