@@ -8,9 +8,13 @@ function init(){
 }
 
 function getDataFromServer(){
-	let promise = getMsgs();
-	promise.then(loadMessages);
+	loadMessages();
 	setTimeout(getDataFromServer, 3000);
+}
+
+function loadMessages(){
+	let promise = getMsgs();
+	promise.then(showMessages);
 }
 
 function getMsgs(){
@@ -19,25 +23,57 @@ function getMsgs(){
 	return promise;
 }
 
-function loadMessages(resp){
+function showMessages(resp){
 	const chat = document.querySelector(".chat-container");
 	const msgs = resp.data;
 
 	chat.innerHTML = "";
 	for (let i = 0; i < msgs.length; i++) {
-		
-		chat.innerHTML += 
-		`<div class="${msgs[i].type}">
-			<div class="time">
-				(${msgs[i].time})
-			</div>
-			<div class="from-to">
-				<span class="user-name">${msgs[i].from}</span> para <span class="user-name">${msgs[i].to}</span>:
-			</div>
-			<div class="text">
-				${msgs[i].text}
-			</div>
-		</div>`;
+
+		if(msgs[i].type === "status") {
+			chat.innerHTML += 
+			`<div class="${msgs[i].type}">
+				<div class="time">
+					(${msgs[i].time})
+				</div>
+				<div class="from-to">
+					<span class="user-name">${msgs[i].from}</span>
+				</div>
+				<div class="text">
+					${msgs[i].text}
+				</div>
+			</div>`;
+		}
+		else if (msgs[i].type === "private_message") {
+			if (msgs[i].to === localStorage.getItem("username")){
+				chat.innerHTML += 
+				`<div class="${msgs[i].type}">
+					<div class="time">
+						(${msgs[i].time})
+					</div>
+					<div class="from-to">
+						<span class="user-name">${msgs[i].from}</span> para <span class="user-name">${msgs[i].to}</span>:
+					</div>
+					<div class="text">
+						${msgs[i].text}
+					</div>
+				</div>`;
+			}
+		}		
+		else {
+			chat.innerHTML += 
+			`<div class="${msgs[i].type}">
+				<div class="time">
+					(${msgs[i].time})
+				</div>
+				<div class="from-to">
+					<span class="user-name">${msgs[i].from}</span> para <span class="user-name">${msgs[i].to}</span>:
+				</div>
+				<div class="text">
+					${msgs[i].text}
+				</div>
+			</div>`;
+		}
 	}
 
 	const lastMsg = chat.lastChild;
@@ -120,7 +156,7 @@ function sendMsg(){
 
 function updateChat(){
 	const promise = getMsgs();
-	promise.then(loadMessages);
+	promise.then(showMessages);
 }
 
 function sendMsgError(){
