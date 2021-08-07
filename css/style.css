@@ -95,7 +95,7 @@ footer button ion-icon {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 menu {	
@@ -127,6 +127,7 @@ menu {
 .menu-content .option ion-icon{
 	font-size: 23px;
 	margin: 10px;
+	display: flex;
 }
 
 .menu-content .option {
@@ -136,7 +137,23 @@ menu {
 	height: 36px;
 	display: flex;
 	align-items: center;
+	position: relative;
 }
+
+.menu-content .option.selected {
+	color: green;
+}
+
+.menu-content .option.selected ion-icon.check{
+	display: initial;
+	font-size: small;
+	position: absolute;
+	right: 0;
+	top:  0;
+}
+
+
+
 
 .menu-background {
 	width: calc(100vw - 259px);

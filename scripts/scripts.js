@@ -168,6 +168,23 @@ init();
 
 
 // BONUS FUNCTIONS
+function selectOption(clickedOption){	
+	const selectedOption = clickedOption.parentNode.querySelector(".selected");
+	
+	if(selectedOption){
+		selectedOption.classList.remove("selected");
+		const selectedOptionCheck = selectedOption.querySelector(".check");
+		selectedOptionCheck.classList.add("hidden");
+	}
+
+	clickedOption.classList.add("selected");
+	const check = clickedOption.querySelector(".check");
+	check.classList.remove("hidden");
+
+	const option = clickedOption.querySelector("p").innerHTML;
+	console.log(option);
+}
+
 function getParticipants(){
 	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants");
 	return promise;
@@ -179,9 +196,10 @@ function insertParticipants(resp){
 
 	participants.innerHTML = 
 	`<h1>Escolha um contato para enviar mensagem:</h1>
-	<div class="option">
+	<div class="option" onclick="selectOption(this);">
 		<ion-icon name="people"></ion-icon>
-		Todos
+		<p>Todos</p>
+		<ion-icon class="hidden check" name="checkmark-outline"></ion-icon>
 	</div>`;
 
 	for (let i = 0; i < participantsList.length; i++) {
@@ -189,10 +207,11 @@ function insertParticipants(resp){
 
 		if(isNotTodos){
 			participants.innerHTML += 
-			`<div class="option">
+			`<div class="option" onclick="selectOption(this);">
 				<ion-icon name="person-circle"></ion-icon>
-				${participantsList[i].name}
-			</div>`
+				<p>${participantsList[i].name}</p>
+				<ion-icon class="hidden check" name="checkmark-outline"></ion-icon>
+			</div>`;
 		}		
 	}
 }

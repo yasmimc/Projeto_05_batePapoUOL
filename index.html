@@ -33,22 +33,18 @@
 	<menu class="hidden">
 		<div class= "menu-background" onclick="hideMenu(this);"></div>
 		<div class="menu-content">
-			<div class="participants">
-				<h1>Escolha um contato para enviar mensagem:</h1>
-				<div class="option">
-					<ion-icon name="people"></ion-icon>
-					Todos
-				</div>
-			</div>
+			<div class="participants"></div>
 			<div class="visibility">
 				<h1>Escolha a visibilidade:</h1>
-				<div class="option">
+				<div class="option" onclick="selectOption(this);">
 					<ion-icon name="lock-open"></ion-icon>
-					Público
+					<p>Público</p>
+					<ion-icon class="hidden check" name="checkmark-outline"></ion-icon>
 				</div>
-				<div class="option">
+				<div class="option" onclick="selectOption(this);">
 					<ion-icon name="lock-closed"></ion-icon>
-					Reservadamente
+					<p>Reservadamente</p>
+					<ion-icon class="hidden check" name="checkmark-outline"></ion-icon>
 				</div>
 			</div>
 		</div>
