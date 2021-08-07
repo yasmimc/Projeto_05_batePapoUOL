@@ -1,78 +1,96 @@
-init();
-
-function init(){
-	
-	getDataFromServer();
-	const name = askName();
-	setUserName(name);
-}
-
-function getDataFromServer(){
-	loadMessages();
-	setTimeout(getDataFromServer, 3000);
-}
-
-function loadMessages(){
-	let promise = getMsgs();
+function updateChat(){
+	const promise = getMsgs();
 	promise.then(showMessages);
 }
 
-function getMsgs(){
-	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
-	console.log(promise)
-	return promise;
+function sendMsgError(){
+	window.location.reload();
+}
+
+function sendMsg(){
+	let input =  document.querySelector("input");
+	let msgText = input.value;
+	input.value = null;
+
+	const msg =
+	{
+		from: localStorage.getItem("username"),
+		to: "Todos",
+		text: msgText,
+		type: "message" 
+	}
+
+	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages", msg);
+	promise.then(updateChat);
+	promise.catch(sendMsgError);
+}
+
+function insertStatusMsg(chat, msg){
+	chat.innerHTML += 
+		`<div class="${msg.type}">
+			<div class="time">
+				(${msg.time})
+			</div>
+			<div class="from-to">
+				<span class="user-name">${msg.from}</span>
+			</div>
+			<div class="text">
+				${msg.text}
+			</div>
+		</div>`;
+}
+
+function insertPrivateMsg(chat, msg){
+	chat.innerHTML += 
+		`<div class="${msg.type}">
+			<div class="time">
+				(${msg.time})
+			</div>
+			<div class="from-to">
+				<span class="user-name">${msg.from}</span> para <span class="user-name">${msg.to}</span>:
+			</div>
+			<div class="text">
+				${msg.text}
+			</div>
+		</div>`;		
+}
+
+function insertPublicMsg(chat, msg){
+	chat.innerHTML += 
+			`<div class="${msg.type}">
+				<div class="time">
+					(${msg.time})
+				</div>
+				<div class="from-to">
+					<span class="user-name">${msg.from}</span> para <span class="user-name">${msg.to}</span>:
+				</div>
+				<div class="text">
+					${msg.text}
+				</div>
+			</div>`;
 }
 
 function showMessages(resp){
 	const chat = document.querySelector(".chat-container");
 	const msgs = resp.data;
+	let isStatus, isPrivateMsg, isPublicMsg;
+	let isToLoggedUser;
 
 	chat.innerHTML = "";
 	for (let i = 0; i < msgs.length; i++) {
+		isStatus = msgs[i].type === "status";
+		isPrivateMsg = msgs[i].type === "private_message";
+		isPublicMsg = msgs[i].type === "message";
+		isToLoggedUser = msgs[i].to === localStorage.getItem("username");
 
-		if(msgs[i].type === "status") {
-			chat.innerHTML += 
-			`<div class="${msgs[i].type}">
-				<div class="time">
-					(${msgs[i].time})
-				</div>
-				<div class="from-to">
-					<span class="user-name">${msgs[i].from}</span>
-				</div>
-				<div class="text">
-					${msgs[i].text}
-				</div>
-			</div>`;
+		if(isStatus) {
+			insertStatusMsg(chat, msgs[i]);
 		}
-		else if (msgs[i].type === "private_message") {
-			if (msgs[i].to === localStorage.getItem("username")){
-				chat.innerHTML += 
-				`<div class="${msgs[i].type}">
-					<div class="time">
-						(${msgs[i].time})
-					</div>
-					<div class="from-to">
-						<span class="user-name">${msgs[i].from}</span> para <span class="user-name">${msgs[i].to}</span>:
-					</div>
-					<div class="text">
-						${msgs[i].text}
-					</div>
-				</div>`;
-			}
+		if (isPrivateMsg && isToLoggedUser) {			
+			insertPrivateMsg(chat, msgs[i]);	
 		}		
-		else {
-			chat.innerHTML += 
-			`<div class="${msgs[i].type}">
-				<div class="time">
-					(${msgs[i].time})
-				</div>
-				<div class="from-to">
-					<span class="user-name">${msgs[i].from}</span> para <span class="user-name">${msgs[i].to}</span>:
-				</div>
-				<div class="text">
-					${msgs[i].text}
-				</div>
-			</div>`;
+		if(isPublicMsg) {
+			insertPublicMsg(chat, msgs[i]);			
 		}
 	}
 
@@ -80,38 +98,33 @@ function showMessages(resp){
 	lastMsg.scrollIntoView();
 }
 
+function getMsgs(){
+	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages");
+	return promise;
+}
+
+function loadMessages(){
+	let promise = getMsgs();
+	promise.then(showMessages);
+}
+
+function getDataFromServer(){
+	loadMessages();
+	setTimeout(getDataFromServer, 3000);
+}
+
 function askName(){
-	let user = {
+	const user = {
 		name: prompt("Qual o seu nome?")
 	}
 	if(!user.name){
-		console.log("ops")
 		askName();
 	}
 	return user;
 }
 
-function setUserName(name){	
-	
-	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants", name);
-
-	promise.then(IfUsernameOK(name));
-	promise.catch(ifUsernameError);	
-}
-
-function IfUsernameOK(username) {
-	localStorage.setItem("username", username.name);
-	setInterval(keepConected, 5000, username);
-}
-
-function keepConected(username){
-	console.log("estou online")
-	const keepConexion = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status", username);
-
-}
-
 function nameInUse(){
-	let user = {
+	const user = {
 		name: prompt("Este nome já está em uso. Digite outro, por favor.")
 	}
 	if(!user.name){
@@ -128,39 +141,35 @@ function ifUsernameError(error){
 	}
 }
 
+function keepConected(username){
+	const keepConexion = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status", username);
+
+}
+
+function IfUsernameOK(username) {
+	localStorage.setItem("username", username.name);
+	setInterval(keepConected, 5000, username);
+}
+
+function setUserName(name){		
+	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants", name);
+	promise.then(IfUsernameOK(name));
+	promise.catch(ifUsernameError);	
+}
+
+function init(){	
+	getDataFromServer();
+	const name = askName();
+	setUserName(name);
+}
+
+init();
+
+
+// BONUS FUNCTIONS
 function getParticipants(){
 	const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants");
-	console.log(promise);
 	return promise;
-}
-
-function sendMsg(){
-	let input =  document.querySelector("input");
-	let msgText = input.value;
-	input.value = null;
-
-	const msg =
-	{
-		from: localStorage.getItem("username"),
-		to: "Todos",
-		text: msgText,
-		type: "message" 
-	}
-
-	console.log(msg);
-
-	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages", msg);
-	promise.then(updateChat);
-	promise.catch(sendMsgError);
-}
-
-function updateChat(){
-	const promise = getMsgs();
-	promise.then(showMessages);
-}
-
-function sendMsgError(){
-	window.location.reload();
 }
 
 function showMenu(){
