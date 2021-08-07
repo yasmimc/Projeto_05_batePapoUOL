@@ -108,9 +108,9 @@ function loadMessages(){
 	promise.then(showMessages);
 }
 
-function getDataFromServer(){
+function getMsgsFromServer(){
 	loadMessages();
-	setTimeout(getDataFromServer, 3000);
+	setTimeout(getMsgsFromServer, 3000);	
 }
 
 function askName(){
@@ -158,7 +158,8 @@ function setUserName(name){
 }
 
 function init(){	
-	getDataFromServer();
+	getMsgsFromServer();
+	setInterval(getParticipants, 10000);
 	const name = askName();
 	setUserName(name);
 }
