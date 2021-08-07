@@ -59,11 +59,11 @@ function setUserName(name){
 	
 	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants", name);
 
-	promise.then(ifSucess(name));
-	promise.catch(identifyError);	
+	promise.then(IfUsernameOK(name));
+	promise.catch(ifUsernameError);	
 }
 
-function ifSucess(username) {
+function IfUsernameOK(username) {
 	localStorage.setItem("username", username.name);
 	setInterval(keepConected, 5000, username);
 }
@@ -84,7 +84,7 @@ function nameInUse(){
 	return user;
 }
 
-function identifyError(error){
+function ifUsernameError(error){
 	const errorStatusCode = error.response.status;
 	if(errorStatusCode === 400) {
 		const newName = nameInUse();
