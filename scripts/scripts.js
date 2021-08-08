@@ -15,9 +15,9 @@ function sendMsg(){
 	const msg =
 	{
 		from: localStorage.getItem("username"),
-		to: "Todos",
+		to: localStorage.getItem("receiver"),
 		text: msgText,
-		type: "message" 
+		type: localStorage.getItem("type") 
 	}
 
 	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/messages", msg);
@@ -162,13 +162,50 @@ function init(){
 	setInterval(getParticipants, 10000);
 	const name = askName();
 	setUserName(name);
+	localStorage.setItem("receiver", "Todos");
+	localStorage.setItem("type", "message");
 }
 
 init();
 
 
 // BONUS FUNCTIONS
+function addReceiverAndType(){
+	const textMsg = document.querySelector(".text-msg").querySelector("p");
+
+	const receiver = localStorage.getItem("receiver");
+	if(receiver){
+		textMsg.innerHTML = `<p>Enviando para ${receiver}</p>`;
+	}
+
+	const type = localStorage.getItem("type");
+	if(type === "private_message"){
+		textMsg.innerHTML = `<p>Enviando para ${receiver} (reservadamente)</p>`;
+	}
+	else{
+		textMsg.innerHTML = `<p>Enviando para ${receiver}</p>`;
+	}
+
+	if(receiver === "Todos"){
+		textMsg.innerHTML = "";
+	}
+	
+}
+
+
+function disablePrivateMsg(){
+	const private = document.querySelector(".private");
+	private.classList.remove("selected");
+	private.querySelector(".check").classList.add("hidden");
+	const public = document.querySelector(".public");
+	public.classList.add("selected");
+	public.querySelector(".check").classList.remove("hidden");
+
+
+}
+
 function selectOption(clickedOption){	
+	
 	const selectedOption = clickedOption.parentNode.querySelector(".selected");
 	
 	if(selectedOption){
@@ -181,8 +218,28 @@ function selectOption(clickedOption){
 	const check = clickedOption.querySelector(".check");
 	check.classList.remove("hidden");
 
-	const option = clickedOption.querySelector("p").innerHTML;
-	console.log(option);
+	const option = clickedOption.querySelector("p");
+
+	const optionType = option.parentNode.parentNode.getAttribute("class");
+	if(optionType === "participants"){
+		localStorage.setItem("receiver", option.innerHTML);
+
+	}
+	if(optionType === "visibility"){
+
+		if(option.innerHTML === "Reservadamente"){
+			localStorage.setItem("type", "private_message");
+		}	
+		else {
+			localStorage.setItem("type", "message");
+		}
+	}
+	
+	if(localStorage.getItem("receiver")==="Todos"){
+		localStorage.setItem("type", "message");
+		disablePrivateMsg();
+	}
+	addReceiverAndType();
 }
 
 function getParticipants(){
@@ -196,10 +253,10 @@ function insertParticipants(resp){
 
 	participants.innerHTML = 
 	`<h1>Escolha um contato para enviar mensagem:</h1>
-	<div class="option" onclick="selectOption(this);">
+	<div class="option selected" onclick="selectOption(this);">
 		<ion-icon name="people"></ion-icon>
 		<p>Todos</p>
-		<ion-icon class="hidden check" name="checkmark-outline"></ion-icon>
+		<ion-icon class="check" name="checkmark-outline"></ion-icon>
 	</div>`;
 
 	for (let i = 0; i < participantsList.length; i++) {
@@ -217,14 +274,14 @@ function insertParticipants(resp){
 }
 
 function showMenu(){
-	const menu = document.querySelector("menu");
-	
+	const menu = document.querySelector("menu");	
 	
 	const promise = getParticipants();
 	promise.then(insertParticipants);
-
 	
 	menu.classList.remove("hidden");
+
+	
 }
 
 function hideMenu(menuBg){
