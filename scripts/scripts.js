@@ -29,13 +29,10 @@ function insertStatusMsg(chat, msg){
 	chat.innerHTML += 
 		`<div class="${msg.type}">
 			<div class="time">
-				(${msg.time})
-			</div>
-			<div class="from-to">
-				<span class="user-name">${msg.from}</span>
+				<p>(${msg.time})</p>
 			</div>
 			<div class="text">
-				${msg.text}
+				<p><span class="user-name">${msg.from}</span>: ${msg.text}</p>
 			</div>
 		</div>`;
 }
@@ -44,13 +41,10 @@ function insertPrivateMsg(chat, msg){
 	chat.innerHTML += 
 		`<div class="${msg.type}">
 			<div class="time">
-				(${msg.time})
-			</div>
-			<div class="from-to">
-				<span class="user-name">${msg.from}</span> para <span class="user-name">${msg.to}</span>:
+				<p>(${msg.time})</p>
 			</div>
 			<div class="text">
-				${msg.text}
+				<p><span class="user-name">${msg.from}</span> para <span class="user-name">${msg.to}</span>: ${msg.text}</p>
 			</div>
 		</div>`;		
 }
@@ -59,13 +53,10 @@ function insertPublicMsg(chat, msg){
 	chat.innerHTML += 
 			`<div class="${msg.type}">
 				<div class="time">
-					(${msg.time})
-				</div>
-				<div class="from-to">
-					<span class="user-name">${msg.from}</span> para <span class="user-name">${msg.to}</span>:
+					<p>(${msg.time})</p>
 				</div>
 				<div class="text">
-					${msg.text}
+					<p><span class="user-name">${msg.from}</span> para <span class="user-name">${msg.to}</span>: ${msg.text}</p>
 				</div>
 			</div>`;
 }
