@@ -1,6 +1,6 @@
 // BONUS FUNCTIONS
 function enableEnterToSendMsg(){
-	document.querySelector("input")
+	document.querySelector(".text-msg input")
     .addEventListener("keyup", function(event) {
     event.preventDefault();
 		if (event.key === "Enter") {
