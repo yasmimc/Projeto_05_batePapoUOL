@@ -3,7 +3,7 @@ function login(){
 	const name = {
 		name:  document.querySelector(".login-screen input").value
 	}
-	setUserName(name);
+	setUsername(name);
 }
 
 function enableEnterToSendMsg(){
@@ -261,7 +261,7 @@ function ifUsernameError(error){
 		// loginScreen.classList.remove("hidden");
 
 		// const newName = nameInUse();
-		// setUserName(newName);
+		// setUsername(newName);
 	}
 }
 
@@ -280,7 +280,7 @@ function IfUsernameOK(promiseResult, username) {
 	
 }
 
-function setUserName(name){	
+function setUsername(name){	
 	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants", name);
 	promise.then(promiseResult => IfUsernameOK(promiseResult, name));
 	promise.catch(ifUsernameError);	
