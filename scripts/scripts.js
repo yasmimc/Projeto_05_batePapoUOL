@@ -193,12 +193,12 @@ function showMessages(resp){
 		isStatus = msgs[i].type === "status";
 		isPrivateMsg = msgs[i].type === "private_message";
 		isPublicMsg = msgs[i].type === "message";
-		isToLoggedUser = msgs[i].to === localStorage.getItem("username");
+		isToOrFromLoggedUser = msgs[i].to === localStorage.getItem("username") || msgs[i].from === localStorage.getItem("username");
 
 		if(isStatus) {
 			insertStatusMsg(chat, msgs[i]);
 		}
-		if (isPrivateMsg && isToLoggedUser) {			
+		if (isPrivateMsg && isToOrFromLoggedUser) {			
 			insertPrivateMsg(chat, msgs[i]);	
 		}		
 		if(isPublicMsg) {

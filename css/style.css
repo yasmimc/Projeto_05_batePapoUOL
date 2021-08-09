@@ -144,15 +144,16 @@ menu {
 	left: 0;
 	width: 100vw;
 	z-index: 1;
-	height: 100vh;
+	height: 100%;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: flex-end;	
 	/* transition animation */
 }
 
 .menu-content {	
 	background-color: #FFFFFF;
 	width: 259px;
+	overflow-y: scroll;
 }
 
 .menu-content h1 {
