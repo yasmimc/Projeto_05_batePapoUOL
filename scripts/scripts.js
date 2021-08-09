@@ -1,4 +1,11 @@
 // BONUS FUNCTIONS
+function login(){
+	const name = {
+		name:  document.querySelector(".login-screen input").value
+	}
+	setUserName(name);
+}
+
 function enableEnterToSendMsg(){
 	document.querySelector(".text-msg input")
     .addEventListener("keyup", function(event) {
@@ -27,8 +34,7 @@ function addReceiverAndType(){
 
 	if(receiver === "Todos"){
 		textMsg.innerHTML = "";
-	}
-	
+	}	
 }
 
 function disablePrivateMsg(){
@@ -38,8 +44,6 @@ function disablePrivateMsg(){
 	const public = document.querySelector(".public");
 	public.classList.add("selected");
 	public.querySelector(".check").classList.remove("hidden");
-
-
 }
 
 function selectOption(clickedOption){	
@@ -134,7 +138,7 @@ function sendMsgError(){
 }
 
 function sendMsg(){
-	let input =  document.querySelector("input");
+	let input =  document.querySelector(".text-msg input");
 	let msgText = input.value;
 	input.value = null;
 
@@ -253,8 +257,11 @@ function nameInUse(){
 function ifUsernameError(error){
 	const errorStatusCode = error.response.status;
 	if(errorStatusCode === 400) {
-		const newName = nameInUse();
-		setUserName(newName);
+		const loginScreen = document.querySelector(".login-screen");
+		// loginScreen.classList.remove("hidden");
+
+		// const newName = nameInUse();
+		// setUserName(newName);
 	}
 }
 
@@ -263,22 +270,26 @@ function keepConected(username){
 
 }
 
-function IfUsernameOK(username) {
-	localStorage.setItem("username", username.name);
-	setInterval(keepConected, 5000, username);
+function IfUsernameOK(promiseResult, username) {
+	if(promiseResult.status === 200) {
+		localStorage.setItem("username", username.name);
+		setInterval(keepConected, 5000, username);
+		const loginScreen = document.querySelector(".login-screen");
+		loginScreen.classList.add("hidden");
+	}
+	
 }
 
-function setUserName(name){		
+function setUserName(name){	
 	const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/participants", name);
-	promise.then(IfUsernameOK(name));
+	promise.then(promiseResult => IfUsernameOK(promiseResult, name));
 	promise.catch(ifUsernameError);	
 }
 
 function init(){	
 	getMsgsFromServer();
 	setInterval(getParticipants, 10000);
-	const name = askName();
-	setUserName(name);
+	
 	localStorage.setItem("receiver", "Todos");
 	localStorage.setItem("type", "message");
 	enableEnterToSendMsg();
