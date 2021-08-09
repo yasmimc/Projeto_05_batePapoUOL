@@ -1,5 +1,3 @@
-
-
 function addReceiverAndType(){
 	const textMsg = document.querySelector(".text-msg").querySelector("p");
 
@@ -48,7 +46,6 @@ function selectOption(clickedOption){
 	const optionType = option.parentNode.parentNode.getAttribute("class");
 	if(optionType === "participants"){
 		localStorage.setItem("receiver", option.innerHTML);
-
 	}
 	if(optionType === "visibility"){
 
@@ -178,7 +175,7 @@ function showMessages(resp){
 	const chat = document.querySelector(".chat-container");
 	const msgs = resp.data;
 	let isStatus, isPrivateMsg, isPublicMsg;
-	let isToLoggedUser;
+	let isToOrFromLoggedUser;
 
 	chat.innerHTML = "";
 	for (let i = 0; i < msgs.length; i++) {
@@ -228,8 +225,7 @@ function ifUsernameError(error){
 }
 
 function keepConected(username){
-	const keepConexion = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status", username);
-
+	axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v3/uol/status", username);
 }
 
 function IfUsernameOK(promiseResult, username) {
@@ -247,14 +243,11 @@ function setUsername(name){
 	promise.catch(ifUsernameError);	
 }
 
-function enableEnterToSendMsg(){
-	document.querySelector(".text-msg input")
-    .addEventListener("keyup", function(event) {
-    event.preventDefault();
-		if (event.key === "Enter") {
-			document.querySelector(".sendBtn").click();
-		}
-	});
+function login(){
+	const name = {
+		name:  document.querySelector(".login-screen input").value
+	}
+	setUsername(name);
 }
 
 function enableEnterToLoginIn(){
@@ -267,11 +260,14 @@ function enableEnterToLoginIn(){
 	});
 }
 
-function login(){
-	const name = {
-		name:  document.querySelector(".login-screen input").value
-	}
-	setUsername(name);
+function enableEnterToSendMsg(){
+	document.querySelector(".text-msg input")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+		if (event.key === "Enter") {
+			document.querySelector(".sendBtn").click();
+		}
+	});
 }
 
 function onLoad(){	
@@ -281,7 +277,7 @@ function onLoad(){
 	localStorage.setItem("receiver", "Todos");
 	localStorage.setItem("type", "message");
 	enableEnterToSendMsg();
-	enableEnterToLoginIn()
+	enableEnterToLoginIn();
 }
 
 onLoad();
