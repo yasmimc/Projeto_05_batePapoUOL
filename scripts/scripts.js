@@ -1,3 +1,13 @@
+function enableEnterToSendMsg(){
+	document.querySelector("input")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+		if (event.keyCode === 13) {
+			document.querySelector(".sendBtn").click();
+		}
+	});
+}
+
 function updateChat(){
 	const promise = getMsgs();
 	promise.then(showMessages);
@@ -155,6 +165,7 @@ function init(){
 	setUserName(name);
 	localStorage.setItem("receiver", "Todos");
 	localStorage.setItem("type", "message");
+	enableEnterToSendMsg();
 }
 
 init();
