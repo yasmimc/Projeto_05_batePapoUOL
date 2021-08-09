@@ -1,12 +1,4 @@
-function enableEnterToSendMsg(){
-	document.querySelector(".text-msg input")
-    .addEventListener("keyup", function(event) {
-    event.preventDefault();
-		if (event.key === "Enter") {
-			document.querySelector(".sendBtn").click();
-		}
-	});
-}
+
 
 function addReceiverAndType(){
 	const textMsg = document.querySelector(".text-msg").querySelector("p");
@@ -255,13 +247,24 @@ function setUsername(name){
 	promise.catch(ifUsernameError);	
 }
 
-function onLoad(){	
-	getMsgsFromServer();
-	setInterval(getParticipants, 10000);
-	
-	localStorage.setItem("receiver", "Todos");
-	localStorage.setItem("type", "message");
-	enableEnterToSendMsg();
+function enableEnterToSendMsg(){
+	document.querySelector(".text-msg input")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+		if (event.key === "Enter") {
+			document.querySelector(".sendBtn").click();
+		}
+	});
+}
+
+function enableEnterToLoginIn(){
+	document.querySelector(".login-screen input")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+		if (event.key === "Enter") {
+			login();
+		}
+	});
 }
 
 function login(){
@@ -269,6 +272,16 @@ function login(){
 		name:  document.querySelector(".login-screen input").value
 	}
 	setUsername(name);
+}
+
+function onLoad(){	
+	getMsgsFromServer();
+	setInterval(getParticipants, 10000);
+	
+	localStorage.setItem("receiver", "Todos");
+	localStorage.setItem("type", "message");
+	enableEnterToSendMsg();
+	enableEnterToLoginIn()
 }
 
 onLoad();
