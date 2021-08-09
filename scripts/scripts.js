@@ -1,11 +1,3 @@
-// BONUS FUNCTIONS
-function login(){
-	const name = {
-		name:  document.querySelector(".login-screen input").value
-	}
-	setUsername(name);
-}
-
 function enableEnterToSendMsg(){
 	document.querySelector(".text-msg input")
     .addEventListener("keyup", function(event) {
@@ -127,7 +119,6 @@ function hideMenu(menuBg){
 	menuBg.parentNode.classList.add("hidden");
 }
 
-// MANDATORY REQUIREMENTS
 function updateChat(){
 	const promise = getMsgs();
 	promise.then(showMessages);
@@ -234,34 +225,13 @@ function getMsgsFromServer(){
 	setTimeout(getMsgsFromServer, 3000);	
 }
 
-function askName(){
-	const user = {
-		name: prompt("Qual o seu nome?")
-	}
-	if(!user.name){
-		askName();
-	}
-	return user;
-}
-
-function nameInUse(){
-	const user = {
-		name: prompt("Este nome já está em uso. Digite outro, por favor.")
-	}
-	if(!user.name){
-		askName();
-	}
-	return user;
-}
-
 function ifUsernameError(error){
 	const errorStatusCode = error.response.status;
 	if(errorStatusCode === 400) {
 		const loginScreen = document.querySelector(".login-screen");
-		// loginScreen.classList.remove("hidden");
-
-		// const newName = nameInUse();
-		// setUsername(newName);
+		loginScreen.innerHTML += 
+		`<p>Este nome já está em uso ou é inválido. </p>
+		<p>Por favor, entre com outro nome.</p>`;
 	}
 }
 
@@ -276,8 +246,7 @@ function IfUsernameOK(promiseResult, username) {
 		setInterval(keepConected, 5000, username);
 		const loginScreen = document.querySelector(".login-screen");
 		loginScreen.classList.add("hidden");
-	}
-	
+	}	
 }
 
 function setUsername(name){	
@@ -286,7 +255,7 @@ function setUsername(name){
 	promise.catch(ifUsernameError);	
 }
 
-function init(){	
+function onLoad(){	
 	getMsgsFromServer();
 	setInterval(getParticipants, 10000);
 	
@@ -295,4 +264,11 @@ function init(){
 	enableEnterToSendMsg();
 }
 
-init();
+function login(){
+	const name = {
+		name:  document.querySelector(".login-screen input").value
+	}
+	setUsername(name);
+}
+
+onLoad();
